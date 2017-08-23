@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Image, View, StyleSheet, Text, ToastAndroid } from 'react-native';
 import { Container, Content, Header, Left, Button, Icon, Body, Title } from 'native-base';
 import ShirtModel from '../Model/ShirtModel';
+import Shirt from './Shirt';
 
 export default class CheckoutScreen extends React.Component {
 
@@ -22,11 +23,8 @@ export default class CheckoutScreen extends React.Component {
 
   render() {
     return (
-      <Image
-        resizeMode="cover"
-        source={require('./../assets/images/editor-bg.jpg')}
-        style={styles.splashContainer}
-      >
+      <Image source={require('./../assets/images/editor-bg.jpg')}
+             style={styles.backgroundImage}>
         <Container>
           <Header style={{ backgroundColor: '#666' }}>
             <Left>
@@ -43,16 +41,11 @@ export default class CheckoutScreen extends React.Component {
             </Body>
           </Header>
           <Content contentContainerStyle={styles.contentContainer}>
-            <View style={styles.imgWrapper}>
-              <Image
-                resizeMode="contain"
-                style={styles.img}
-                source={{ uri: this.state.shirt.thumbnailUri }}
-              />
-            </View>
+            <Shirt
+              shirt={this.props.shirt}
+            />
             <Button
               info
-              iconRight
               block
               rounded
               style={{ margin: 10 }}
@@ -62,7 +55,6 @@ export default class CheckoutScreen extends React.Component {
             >
               <Text style={[styles.btnText]}>Buy Now</Text>
             </Button>
-
           </Content>
         </Container>
       </Image>
@@ -75,28 +67,16 @@ export default class CheckoutScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  splashContainer: {
-    flex: 1,
-    flexDirection: 'column',
+  backgroundImage: {
+    flex: 1
   },
   contentContainer: {
     flex: 1,
-    flexDirection: 'column',
     justifyContent: 'space-between',
-    alignItems: 'stretch',
     padding: 10,
-  },
-  imgWrapper: {
-    flex: 1,
-    alignItems: 'center'
-  },
-  img: {
-    width: 420,
-    height: 420,
   },
   btnText: {
     color: '#FFF',
     fontWeight: 'bold',
-  },
-
+  }
 });

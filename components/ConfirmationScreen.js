@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Image, View, StyleSheet, Text, Dimensions } from 'react-native';
 import { Container, Content, Header, Left, Button, Icon, Body, Title } from 'native-base';
 import ShirtModel from '../Model/ShirtModel';
+import Shirt from './Shirt';
 
 let { height, width } = Dimensions.get("window");
 
@@ -14,26 +15,6 @@ export default class ConfirmationScreen extends React.Component {
   static defaultProps = {
     shirt: null,
   };
-
-  constructor(props) {
-    super(props);
-    let price = 0;
-    switch (this.props.shirt) {
-      case 'S' :
-        price = 10;
-      break;
-      case 'M' :
-        price = 11;
-      break;
-      case 'L' :
-        price = 12;
-      break;
-    }
-    this.state = {
-      shirt: this.props.shirt,
-      price: price
-    };
-  }
 
   render() {
     return (
@@ -55,26 +36,21 @@ export default class ConfirmationScreen extends React.Component {
             </Body>
           </Header>
           <Content contentContainerStyle={styles.contentContainer}>
-              <View style={styles.imgWrapper}>
-                <Image
-                  ref="snapshotForSharing"
-                  resizeMode="contain"
-                  style={styles.img}
-                  source={{ uri: this.state.shirt.thumbnailUri }}
-                />
-              </View>
+              <Shirt
+                shirt={this.props.shirt}
+              />
               <View style={styles.textWrapper}>
                 <View>
                   <Text style={[styles.labels]}>Style:</Text>
-                  <Text style={[styles.values]}>{this.state.shirt.isMens ? 'Mens' : 'Womens'}</Text>
+                  <Text style={[styles.values]}>{this.props.shirt.isMens ? 'Mens' : 'Womens'}</Text>
                 </View>
                 <View>
                   <Text style={[styles.labels]}>Size:</Text>
-                  <Text style={[styles.values]}>{this.state.shirt.size}</Text>
+                  <Text style={[styles.values]}>{this.props.shirt.size}</Text>
                 </View>
                 <View>
                   <Text style={[styles.labels]}>Price:</Text>
-                  <Text style={[styles.values]}>${this.state.shirt.price}</Text>
+                  <Text style={[styles.values]}>${this.props.shirt.price}</Text>
                 </View>
               </View>
               <Button
@@ -87,7 +63,7 @@ export default class ConfirmationScreen extends React.Component {
                   this.props.navigator.push({
                     name: 'Checkout',
                     passProps: {
-                      shirt: this.state.shirt
+                      shirt: this.props.shirt
                     }
                   })
                 }}
@@ -104,25 +80,12 @@ export default class ConfirmationScreen extends React.Component {
 
 const styles = StyleSheet.create({
   backgroundImage: {
-    flex: 1,
-    width: width,
-    height: height,
-    resizeMode: 'cover'
+    flex: 1
   },
   contentContainer: {
     flex: 1,
-    flexDirection: 'column',
     justifyContent: 'space-between',
-    alignItems: 'stretch',
     padding: 10,
-  },
-  imgWrapper: {
-    flex: 1,
-    alignItems: 'center'
-  },
-  img: {
-    width: 420,
-    height: 420,
   },
   textWrapper: {
     margin: 10,

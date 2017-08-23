@@ -3,7 +3,7 @@ import { Image } from 'react-native';
 import { Content, Header, Left, Right, Button, Icon, Body, Title } from 'native-base';
 import { takeSnapshot, dirs } from 'react-native-view-shot';
 import ConfigButtonBar from './ConfigButtonBar.js';
-import ConfigBody from './ConfigBody.js';
+import Shirt from './Shirt.js';
 import ConfigFooter from './ConfigFooter.js';
 import ModalColorPicker from './ModalColorPicker';
 import ModalTextEditor from './ModalTextEditor';
@@ -181,7 +181,7 @@ export default class ConfigScreen extends React.Component {
               showSizePicker={this.showSizePicker}
             />
 
-            <ConfigBody
+            <Shirt
               ref="snapshot"
               shirt={this.state.shirt}
             />
