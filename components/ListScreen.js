@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Image, Dimensions } from 'react-native';
 import PhotoGrid from 'react-native-photo-grid';
-import { Container, Content, Header, Left, Right, Button, Text, Icon, Body, Title, Fab, View, List, ListItem, Thumbnail } from 'native-base';
+import { Container, Content, Header, Left, Right, Button, Text, Icon, Body, Title, Fab, View, List, ListItem, Thumbnail, Separator } from 'native-base';
 import storage from '../Model/ShirtStorage';
 import ShirtModel from '../Model/ShirtModel';
 
@@ -132,7 +132,7 @@ export default class ListScreen extends React.Component {
       <PhotoGrid
         data={this.state.shirts}
         itemsPerRow={2}
-        itemMargin={2}
+        itemMargin={0}
         renderItem={this.renderGridItem}
       />
     )
@@ -142,41 +142,46 @@ export default class ListScreen extends React.Component {
     let shirt = new ShirtModel(item.id, item.size, item.isMens, item.caption, item.color, item.thumbnailUri)
     return (
       <TouchableOpacity
-        activeOpacity={0.8}
+        activeOpacity={1}
         key={shirt.id}
         style={{ width: itemSize, height: itemSize }}
         onPress={() => {
           this.navigateToConfig(shirt);
         }}
       >
-        <Image
-          resizeMode="contain"
-          style={{ flex: 1, margin: 3 }}
-          source={{ uri: item.thumbnailUri }}
-        />
-        <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
-          <Button
-            small
-            info
-            rounded
-            style={{ margin: 10 }}
-            onPress={() => {
-              this.removeFromStorage(shirt);
-            }}
-          >
-            <Icon name="md-trash" />
-          </Button>
-          <Button
-            small
-            info
-            rounded
-            style={{ marginTop: 10, marginBottom: 10 }}
-            onPress={() => {
-              this.navigateToConfirmation(shirt);
-            }}
-          >
-            <Icon name="md-cart" />
-          </Button>
+        <View
+          style={{height: itemSize, backgroundColor: 'black'}}
+        >
+          <Image
+            resizeMode="contain"
+            style={{ flex: 1, margin: 0 }}
+            source={{ uri: item.thumbnailUri }}
+          />
+          <Text style={{width: itemSize, color: 'white', textAlign: 'center'}}>{shirt.getDescription()}</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
+            <Button
+              small
+              info
+              rounded
+              style={{ margin: 10 }}
+              onPress={() => {
+                this.removeFromStorage(shirt);
+              }}
+            >
+              <Icon name="md-trash" />
+            </Button>
+            <Button
+              small
+              info
+              rounded
+              style={{ marginTop: 10, marginBottom: 10 }}
+              onPress={() => {
+                this.navigateToConfirmation(shirt);
+              }}
+            >
+              <Icon name="md-cart" />
+            </Button>
+          </View>
         </View>
       </TouchableOpacity>
     )
@@ -194,45 +199,50 @@ export default class ListScreen extends React.Component {
   renderListRow = (data) => {
     let shirt = new ShirtModel(data.id, data.size, data.isMens, data.caption, data.color, data.thumbnailUri)
     return (
-      <ListItem
-        thumbnail
-        onPress={() => {
-          this.navigateToConfig(shirt);
-        }}
-      >
-        <Left>
-          <Thumbnail source={{ uri: shirt.thumbnailUri }} />
-        </Left>
-        <Body>
-          <Text style={{ margin: 8 }}>{shirt.caption}</Text>
-        </Body>
-        <Right>
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-end'}}>
-            <Button
-              small
-              info
-              rounded
-              style={{ margin: 4 }}
-              onPress={
-                () => this.removeFromStorage(shirt)
-              }
-            >
-              <Icon name="md-trash" />
-            </Button>
-            <Button
-              small
-              info
-              rounded
-              style={{ margin: 4 }}
-              onPress={
-                () => this.navigateToConfirmation(shirt)
-              }
-            >
-              <Icon name="md-cart" />
-            </Button>
-          </View>
-        </Right>
-      </ListItem>
+      <View>
+        <ListItem
+          thumbnail
+          onPress={() => {
+            this.navigateToConfig(shirt);
+          }}
+        >
+          <Left>
+            <Thumbnail large source={{ uri: shirt.thumbnailUri }} />
+          </Left>
+          <Body>
+            <Text style={{ margin: 10, padding: 10 }}>{shirt.caption}</Text>
+          </Body>
+          <Right>
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end'}}>
+              <Button
+                small
+                info
+                rounded
+                style={{ margin: 4 }}
+                onPress={
+                  () => this.removeFromStorage(shirt)
+                }
+              >
+                <Icon name="md-trash" />
+              </Button>
+              <Button
+                small
+                info
+                rounded
+                style={{ margin: 4 }}
+                onPress={
+                  () => this.navigateToConfirmation(shirt)
+                }
+              >
+                <Icon name="md-cart" />
+              </Button>
+            </View>
+          </Right>
+        </ListItem>
+        <Separator bordered>
+          <Text>{shirt.getDescription()}</Text>
+        </Separator>
+      </View>
     )
   }
 

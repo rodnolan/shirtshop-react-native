@@ -31,4 +31,20 @@ export default class ShirtModel {
     this.price = price;
   }
 
+  getDescription() {
+    let gender, size = '';
+    gender = this.isMens ? 'men' : 'women';
+    switch (this.size) {
+      case 'S' :
+        size = 'small';
+        break;
+      case 'M' :
+        size = 'medium';
+        break;
+      case 'L' :
+        size = 'large';
+        break;
+    }
+    return gender + ', ' + size + ', ' + this.color + ', $'+this.price;
+  }
 }
